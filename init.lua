@@ -731,12 +731,17 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'prettier', -- JSON, JS, TS, CSS, HTML, Markdown, YAML
+        'black', -- Python
+        'isort', -- Python imports
+        'gofumpt', -- Go
+        'shfmt', -- Shell/Bash
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
         ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_installation = false,
+        automatic_enable = { 'lua_ls' },
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -783,9 +788,22 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        -- Web
+        javascript = { 'prettier' },
+        typescript = { 'prettier' },
+        json = { 'prettier' },
+        yaml = { 'prettier' },
+        markdown = { 'prettier' },
+        html = { 'prettier' },
+        css = { 'prettier' },
+        -- Python
+        python = { 'isort', 'black' },
+        -- Go
+        go = { 'gofumpt' },
+        -- Shell
+        sh = { 'shfmt' },
+        bash = { 'shfmt' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
       },
