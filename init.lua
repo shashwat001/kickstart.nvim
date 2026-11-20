@@ -168,6 +168,11 @@ vim.o.confirm = true
 
 vim.opt.swapfile = false
 
+vim.o.tabstop = 4 -- A TAB character looks like 4 spaces
+vim.o.expandtab = true -- Pressing the TAB key will insert spaces instead of a TAB character
+vim.o.softtabstop = 4 -- Number of spaces inserted instead of a TAB character
+vim.o.shiftwidth = 4 -- Number of spaces inserted when indenting
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -177,6 +182,14 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
+-- Lazy plugin manager keymap
+vim.keymap.set('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Open [L]azy plugin manager' })
+
+-- Git shortcuts for code review (fugitive/flog already installed)
+vim.keymap.set('n', '<leader>gb', ':Git blame<CR>', { desc = '[G]it [b]lame' })
+vim.keymap.set('n', '<leader>gl', ':Git log --oneline -20<CR>', { desc = '[G]it [l]og' })
+vim.keymap.set('n', '<leader>gL', ':Flog<CR>', { desc = '[G]it [L]og graph' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
