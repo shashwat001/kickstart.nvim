@@ -4,6 +4,13 @@
 
 local loaded = false
 
+-- diffview only works inside a git work tree; warn instead of throwing E5108
+local function in_git_repo()
+  local name = vim.api.nvim_buf_get_name(0)
+  local start = name ~= '' and vim.fs.dirname(name) or vim.fn.getcwd()
+  return vim.fs.root(start, '.git') ~= nil
+end
+
 local function load()
   if loaded then return end
   loaded = true
@@ -36,6 +43,10 @@ local function load()
 end
 
 vim.keymap.set('n', '<leader>gd', function()
+  if not in_git_repo() then
+    vim.notify('Diffview: not inside a git repository', vim.log.levels.WARN)
+    return
+  end
   load()
   vim.cmd.DiffviewOpen()
 end, { desc = '[G]it [D]iff View' })
