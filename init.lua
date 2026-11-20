@@ -818,6 +818,7 @@ require('lazy').setup({
       -- Snippet Engine
       {
         'L3MON4D3/LuaSnip',
+        enabled = false,
         version = '2.*',
         build = (function()
           -- Build Step is needed for regex support in snippets.
@@ -887,13 +888,11 @@ require('lazy').setup({
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'lazydev' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
         },
       },
-
-      snippets = { preset = 'luasnip' },
 
       -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
       -- which automatically downloads a prebuilt binary when enabled.
