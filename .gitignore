@@ -5,3 +5,7 @@ nvim
 
 spell/
 lazy-lock.json
+
+# Syncthing conflict copies and backups
+*sync-conflict-*
+*.bak-*
