@@ -99,7 +99,7 @@ do
   vim.g.maplocalleader = ' '
 
   -- Set to true if you have a Nerd Font installed and selected in the terminal
-  vim.g.have_nerd_font = false
+  vim.g.have_nerd_font = true
 
   -- [[ Setting options ]]
   --  See `:help vim.o`
@@ -171,6 +171,15 @@ do
   -- instead raise a dialog asking if you wish to save the current file(s)
   -- See `:help 'confirm'`
   vim.o.confirm = true
+
+  -- No swap files
+  vim.o.swapfile = false
+
+  -- Use 4 spaces for indentation
+  vim.o.tabstop = 4 -- A TAB character looks like 4 spaces
+  vim.o.expandtab = true -- Pressing the TAB key will insert spaces instead of a TAB character
+  vim.o.softtabstop = 4 -- Number of spaces inserted instead of a TAB character
+  vim.o.shiftwidth = 4 -- Number of spaces inserted when indenting
 end
 
 -- ============================================================
@@ -210,6 +219,9 @@ do
   }
 
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
+  -- Inspect pending plugin updates (vim.pack has no plugin UI of its own)
+  vim.keymap.set('n', '<leader>l', function() vim.pack.update(nil, { offline = true }) end, { desc = '[P]lugin update status' })
 
   -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
   -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -804,6 +816,11 @@ do
   local ensure_installed = vim.tbl_keys(servers or {})
   vim.list_extend(ensure_installed, {
     -- You can add other tools here that you want Mason to install
+    'prettier', -- JSON, JS, TS, CSS, HTML, Markdown, YAML
+    'black', -- Python
+    'isort', -- Python imports
+    'gofumpt', -- Go
+    'shfmt', -- Shell/Bash
   })
 
   require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -842,7 +859,21 @@ do
     formatters_by_ft = {
       -- rust = { 'rustfmt' },
       -- Conform can also run multiple formatters sequentially
-      -- python = { "isort", "black" },
+      -- Python
+      python = { 'isort', 'black' },
+      -- Web
+      javascript = { 'prettier' },
+      typescript = { 'prettier' },
+      json = { 'prettier' },
+      yaml = { 'prettier' },
+      markdown = { 'prettier' },
+      html = { 'prettier' },
+      css = { 'prettier' },
+      -- Go
+      go = { 'gofumpt' },
+      -- Shell
+      sh = { 'shfmt' },
+      bash = { 'shfmt' },
       --
       -- You can use 'stop_after_first' to run the first available formatter from the list
       -- javascript = { "prettierd", "prettier", stop_after_first = true },
